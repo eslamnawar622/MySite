@@ -57,13 +57,23 @@ h1,h2,h3,h4,h5{font-family:'Syne',sans-serif}
 #toast{position:fixed;bottom:24px;right:24px;z-index:200;transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.56,.64,1)}
 #toast.show{transform:translateY(0);opacity:1}
 .skeleton{background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
-.upload-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:#eef2ff;color:#4f46e5;border:2px dashed #a5b4fc;border-radius:10px;cursor:pointer;font-size:.78rem;font-weight:600;transition:all .2s}
-.upload-btn:hover{background:#e0e7ff;border-color:#4f46e5}
 #fbBadge{position:fixed;bottom:72px;right:24px;z-index:150;background:#10b981;color:#fff;padding:7px 16px;border-radius:99px;font-size:.72rem;font-weight:700;opacity:0;pointer-events:none;transition:opacity .4s;font-family:'DM Sans',sans-serif}
 #fbBadge.show{opacity:1}
 #adminSite{display:none}
 body.admin #adminSite{display:flex}
 body.admin #publicSite{display:none}
+
+/* imgbb upload button styles */
+.imgbb-upload-wrap{display:flex;flex-direction:column;gap:8px}
+.imgbb-btn{display:inline-flex;align-items:center;gap:7px;padding:9px 16px;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border-radius:10px;cursor:pointer;font-size:.78rem;font-weight:700;transition:all .2s;border:none;font-family:'DM Sans',sans-serif}
+.imgbb-btn:hover{opacity:.9;transform:translateY(-1px)}
+.imgbb-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.imgbb-progress{display:none;align-items:center;gap:8px;padding:8px 12px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:10px;font-size:.75rem;color:#4f46e5;font-weight:600}
+.imgbb-progress.show{display:flex}
+.imgbb-success{display:none;align-items:center;gap:8px;padding:8px 12px;background:#ecfdf5;border:1px solid #a7f3d0;border-radius:10px;font-size:.75rem;color:#059669;font-weight:600}
+.imgbb-success.show{display:flex}
+.spin{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body class="antialiased">
@@ -146,7 +156,7 @@ body.admin #publicSite{display:none}
                 onerror="this.style.display='none';document.getElementById('heroPhotoFallback').style.display='flex'">
               <div id="heroPhotoFallback" class="w-full h-full flex items-center justify-center flex-col gap-3 text-primary-300">
                 <i class="fas fa-user text-7xl"></i>
-                <span class="text-xs text-primary-400 font-medium">Add photo URL from Admin</span>
+                <span class="text-xs text-primary-400 font-medium">Add photo from Admin</span>
               </div>
             </div>
             <div class="absolute -bottom-4 -left-6 bg-white rounded-2xl shadow-xl p-3 border border-slate-100 flex items-center gap-3" style="animation:float 5s ease-in-out infinite">
@@ -392,12 +402,12 @@ body.admin #publicSite{display:none}
             <span class="text-xs font-semibold text-emerald-700">site-fc48e.firebaseapp.com</span>
           </div>
         </div>
-        <!-- Drive Helper -->
-        <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-4">
-          <h3 class="font-display font-bold text-blue-800 mb-2 flex items-center gap-2 text-base"><i class="fab fa-google-drive"></i> Google Drive Links</h3>
-          <p class="text-blue-700 text-sm mb-3">الصور والـ CV — حط أي Google Drive link عادي وهيتحول تلقائياً ✅</p>
-          <div class="bg-white rounded-lg p-3 text-xs text-slate-600 font-mono">
-            https://drive.google.com/file/d/<span class="text-blue-600 font-bold">FILE_ID</span>/view → يتحول تلقائياً
+        <!-- imgbb info -->
+        <div class="bg-violet-50 border border-violet-200 rounded-xl p-6 mb-4">
+          <h3 class="font-display font-bold text-violet-800 mb-2 flex items-center gap-2 text-base"><i class="fas fa-image"></i> imgbb Image Hosting</h3>
+          <p class="text-violet-700 text-sm mb-2">ارفع صورك مباشرة من الأدمن بانيل — تتحمل على imgbb وترجع direct link تلقائياً ✅</p>
+          <div class="bg-white rounded-lg p-3 text-xs text-slate-600">
+            <span class="font-bold text-violet-600">كيف يشتغل:</span> اختار صورة من جهازك أو الصق URL عادي → هيترفع تلقائياً على imgbb → الـ direct link يتحفظ في Firebase
           </div>
         </div>
         <div class="bg-white p-6 rounded-xl border shadow-sm">
@@ -423,27 +433,40 @@ body.admin #publicSite{display:none}
           <div><label class="label">Subtitle / Bio</label><textarea id="eSubtitle" rows="3" class="inp resize-none"></textarea></div>
           <div><label class="label">Typewriter Roles <span class="text-slate-400 font-normal">(comma-separated)</span></label><input id="eRoles" type="text" class="inp" placeholder="Computer Vision Engineer, ROS2 Developer"></div>
 
-          <!-- PHOTO URL (Google Drive or any direct URL) -->
+          <!-- HERO PHOTO — imgbb upload -->
           <div>
-            <label class="label">Profile Photo — Google Drive Link أو أي رابط صورة</label>
-            <div class="flex gap-3 items-start">
+            <label class="label">Profile Photo</label>
+            <div class="flex gap-4 items-start">
+              <!-- Preview thumbnail -->
               <div class="w-24 h-24 rounded-2xl overflow-hidden border-2 border-slate-200 bg-slate-100 flex items-center justify-center flex-shrink-0">
                 <img id="photoThumb" src="" class="w-full h-full object-cover hidden" onerror="this.classList.add('hidden');document.getElementById('photoThumbIcon').classList.remove('hidden')">
                 <i id="photoThumbIcon" class="fas fa-user text-slate-300 text-2xl"></i>
               </div>
-              <div class="flex-1">
-                <input id="ePhotoUrl" type="text" class="inp mb-2" placeholder="https://drive.google.com/file/d/XXXX/view?usp=sharing">
-                <p class="text-xs text-slate-400">✅ الصق أي Google Drive link عادي — هيتحول تلقائياً للصورة</p>
-                <button type="button" onclick="previewPhoto()" class="mt-2 px-4 py-1.5 bg-primary-50 text-primary-600 border border-primary-200 rounded-lg text-xs font-bold hover:bg-primary-100 transition">
-                  <i class="fas fa-eye mr-1"></i> Preview Photo
-                </button>
+              <div class="flex-1 space-y-3">
+                <!-- URL input -->
+                <input id="ePhotoUrl" type="text" class="inp" placeholder="أو الصق أي رابط صورة مباشر هنا...">
+                <!-- imgbb upload section -->
+                <div class="imgbb-upload-wrap">
+                  <label id="heroUploadBtn" class="imgbb-btn" style="cursor:pointer">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    ارفع صورة من جهازك على imgbb
+                    <input type="file" id="heroPhotoFile" accept="image/*" class="hidden" onchange="uploadToImgbb(this,'ePhotoUrl','heroUploadProgress','heroUploadSuccess','photoThumb','photoThumbIcon')">
+                  </label>
+                  <div id="heroUploadProgress" class="imgbb-progress">
+                    <i class="fas fa-spinner spin"></i> جاري الرفع على imgbb…
+                  </div>
+                  <div id="heroUploadSuccess" class="imgbb-success">
+                    <i class="fas fa-check-circle"></i> تم الرفع بنجاح! الـ URL اتحفظ تلقائياً ✅
+                  </div>
+                </div>
+                <p class="text-xs text-slate-400">✅ ارفع صورة أو الصق أي URL مباشر — هيتحفظ في Firebase تلقائياً</p>
               </div>
             </div>
           </div>
 
-          <!-- CV URL (Google Drive) -->
+          <!-- CV URL -->
           <div>
-            <label class="label">CV / Resume — Google Drive Link</label>
+            <label class="label">CV / Resume — Google Drive Link أو أي رابط</label>
             <input id="eCvUrl" type="text" class="inp mb-2" placeholder="https://drive.google.com/file/d/XXXX/view?usp=sharing">
             <p class="text-xs text-slate-400">✅ الصق الـ Drive link العادي — زرار الـ CV هيفتح الملف مباشرة</p>
           </div>
@@ -557,18 +580,29 @@ body.admin #publicSite{display:none}
       <div><label class="label">Title *</label><input id="pmTitle" type="text" class="inp" required></div>
       <div><label class="label">Category</label><input id="pmCategory" type="text" class="inp" placeholder="Computer Vision"></div>
 
-      <!-- PROJECT IMAGE — Google Drive URL -->
+      <!-- PROJECT IMAGE — imgbb upload -->
       <div>
-        <label class="label">Project Image — Google Drive Link أو أي رابط صورة</label>
-        <input id="pmImageUrl" type="text" class="inp mb-2" placeholder="https://drive.google.com/file/d/XXXX/view?usp=sharing">
-        <p class="text-xs text-slate-400 mb-2">✅ الصق Google Drive link عادي — هيتحول تلقائياً</p>
-        <div id="pmPreviewWrap" class="hidden mt-2 relative w-full h-44 rounded-xl overflow-hidden border-2 border-slate-200">
+        <label class="label">Project Image</label>
+        <input id="pmImageUrl" type="text" class="inp mb-2" placeholder="أو الصق أي رابط صورة مباشر هنا...">
+        <div class="imgbb-upload-wrap">
+          <label class="imgbb-btn" style="cursor:pointer">
+            <i class="fas fa-cloud-upload-alt"></i>
+            ارفع صورة على imgbb
+            <input type="file" id="projPhotoFile" accept="image/*" class="hidden"
+              onchange="uploadToImgbb(this,'pmImageUrl','projUploadProgress','projUploadSuccess','pmPreviewImg',null,true)">
+          </label>
+          <div id="projUploadProgress" class="imgbb-progress">
+            <i class="fas fa-spinner spin"></i> جاري الرفع على imgbb…
+          </div>
+          <div id="projUploadSuccess" class="imgbb-success">
+            <i class="fas fa-check-circle"></i> تم الرفع! الـ URL اتحفظ تلقائياً ✅
+          </div>
+        </div>
+        <p class="text-xs text-slate-400 mt-1">✅ ارفع صورة أو الصق URL مباشر</p>
+        <div id="pmPreviewWrap" class="hidden mt-3 relative w-full h-44 rounded-xl overflow-hidden border-2 border-slate-200">
           <img id="pmPreviewImg" class="w-full h-full object-cover" onerror="this.parentElement.classList.add('hidden')">
           <button type="button" onclick="clearProjImg()" class="absolute top-2 right-2 w-7 h-7 bg-black/50 rounded-full text-white flex items-center justify-center"><i class="fas fa-times text-xs"></i></button>
         </div>
-        <button type="button" onclick="previewProjImg()" class="mt-2 px-4 py-1.5 bg-primary-50 text-primary-600 border border-primary-200 rounded-lg text-xs font-bold hover:bg-primary-100 transition">
-          <i class="fas fa-eye mr-1"></i> Preview Image
-        </button>
       </div>
 
       <div>
@@ -746,42 +780,115 @@ window._fbSave = async function(payload) {
 <script>
 
 // ════════════════════════════════════════════
+// imgbb API KEY
+// ════════════════════════════════════════════
+const IMGBB_API_KEY = "3496284759176690f6182f30e111d786";
+
+// ════════════════════════════════════════════
+// imgbb UPLOAD FUNCTION
+// uploadToImgbb(fileInput, urlInputId, progressId, successId, previewImgId, previewIconId, showWrap)
+// ════════════════════════════════════════════
+window.uploadToImgbb = async function(fileInput, urlInputId, progressId, successId, previewImgId, previewIconId, showWrap) {
+  const file = fileInput.files[0];
+  if (!file) return;
+
+  const progressEl = document.getElementById(progressId);
+  const successEl  = document.getElementById(successId);
+  const urlInput   = document.getElementById(urlInputId);
+
+  // Reset states
+  if (progressEl) { progressEl.classList.add("show");    progressEl.style.display = "flex"; }
+  if (successEl)  { successEl.classList.remove("show");  successEl.style.display  = "none"; }
+
+  try {
+    // Convert file to base64
+    const base64 = await new Promise((res, rej) => {
+      const reader = new FileReader();
+      reader.onload  = () => res(reader.result.split(",")[1]);
+      reader.onerror = () => rej(new Error("Failed to read file"));
+      reader.readAsDataURL(file);
+    });
+
+    // Upload to imgbb
+    const formData = new FormData();
+    formData.append("key",   IMGBB_API_KEY);
+    formData.append("image", base64);
+    formData.append("name",  file.name.replace(/\.[^/.]+$/, "")); // filename without extension
+
+    const res  = await fetch("https://api.imgbb.com/1/upload", { method: "POST", body: formData });
+    const json = await res.json();
+
+    if (!json.success) throw new Error(json.error?.message || "imgbb upload failed");
+
+    // Get the direct display URL
+    const directUrl = json.data.display_url || json.data.url;
+
+    // Update the URL input field
+    if (urlInput) urlInput.value = directUrl;
+
+    // Update preview image
+    if (previewImgId) {
+      const previewImg = document.getElementById(previewImgId);
+      if (previewImg) {
+        previewImg.src = directUrl;
+        previewImg.classList.remove("hidden");
+        previewImg.style.display = "";
+        // Show the wrap if needed
+        if (showWrap) {
+          const wrap = document.getElementById("pmPreviewWrap");
+          if (wrap) wrap.classList.remove("hidden");
+        }
+      }
+    }
+
+    // Hide the icon if exists
+    if (previewIconId) {
+      const icon = document.getElementById(previewIconId);
+      if (icon) icon.classList.add("hidden");
+    }
+
+    // Show success
+    if (progressEl) { progressEl.classList.remove("show"); progressEl.style.display = "none"; }
+    if (successEl)  { successEl.classList.add("show");     successEl.style.display  = "flex"; }
+    setTimeout(() => { if (successEl) { successEl.classList.remove("show"); successEl.style.display = "none"; } }, 4000);
+
+    showToast("✅ تم الرفع على imgbb بنجاح!");
+    return directUrl;
+
+  } catch (err) {
+    if (progressEl) { progressEl.classList.remove("show"); progressEl.style.display = "none"; }
+    showToast("❌ فشل الرفع: " + err.message, true);
+    console.error("imgbb error:", err);
+    return null;
+  } finally {
+    // Reset file input so same file can be re-selected
+    fileInput.value = "";
+  }
+};
+
+// ════════════════════════════════════════════
 // GOOGLE DRIVE LINK CONVERTER
-// بياخد أي Google Drive link ويحوله لـ direct image/file URL
 // ════════════════════════════════════════════
 function convertDriveLink(url) {
   if (!url || url.trim() === "") return "";
   url = url.trim();
-
-  // لو مش Drive link — رجعه زي ما هو
   if (!url.includes("drive.google.com")) return url;
 
-  // استخرج الـ file ID
   let fileId = "";
-
-  // Pattern 1: /file/d/FILE_ID/view
   const m1 = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
   if (m1) fileId = m1[1];
-
-  // Pattern 2: id=FILE_ID
   if (!fileId) {
     const m2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
     if (m2) fileId = m2[1];
   }
-
-  // Pattern 3: /open?id=FILE_ID
   if (!fileId) {
     const m3 = url.match(/open\?id=([a-zA-Z0-9_-]+)/);
     if (m3) fileId = m3[1];
   }
-
-  if (!fileId) return url; // مش عارف يستخرج الـ ID — رجع الـ URL زي ما هو
-
-  // حوله لـ direct view URL يشتغل كصورة وكملف
+  if (!fileId) return url;
   return `https://drive.google.com/uc?export=view&id=${fileId}`;
 }
 
-// CV link — بيفتح في تاب جديد (مش download لأن Drive بيعرضه)
 function convertDriveLinkForCV(url) {
   if (!url || url.trim() === "") return "#";
   url = url.trim();
@@ -795,8 +902,6 @@ function convertDriveLinkForCV(url) {
     if (m2) fileId = m2[1];
   }
   if (!fileId) return url;
-
-  // Preview URL — بيفتح الـ PDF في Drive viewer
   return `https://drive.google.com/file/d/${fileId}/preview`;
 }
 
@@ -872,10 +977,10 @@ window.renderAll = function() {
   setText("heroStatus",    h.status);
   setText("heroSubtitle",  h.subtitle);
 
-  // Photo — convert Drive link automatically
+  // Photo — imgbb direct link OR convert Drive link
   const ph = document.getElementById("heroPhoto");
   const pf = document.getElementById("heroPhotoFallback");
-  const photoSrc = convertDriveLink(h.photoUrl || "");
+  const photoSrc = convertDriveLink(h.photoUrl || ""); // works for both imgbb and Drive
   if (ph && pf) {
     if (photoSrc) {
       ph.src = photoSrc;
@@ -922,11 +1027,11 @@ window.renderAll = function() {
     }).join("");
   }
 
-  // Projects — convert Drive image links automatically
+  // Projects — imgbb direct URL OR convert Drive link
   const pg = document.getElementById("projectsGrid");
   if (pg) {
     pg.innerHTML = D.projects.map((p,i)=>{
-      const imgSrc = convertDriveLink(p.imageUrl || "");
+      const imgSrc = convertDriveLink(p.imageUrl || ""); // works for imgbb too (no-op for non-Drive)
       return `
       <div class="proj-card group bg-white rounded-2xl border border-slate-100 overflow-hidden card reveal up shadow-sm" style="transition-delay:${i*70}ms"${p.link?` onclick="window.open('${p.link}','_blank')" style="cursor:pointer"`:""}>
         <div class="proj-img-wrap h-52 bg-gradient-to-br ${p.gradient} relative">
@@ -1181,46 +1286,6 @@ window.fillSettings=function(){
 };
 
 // ════════════════════════════════════════════
-// PHOTO PREVIEW (Admin)
-// ════════════════════════════════════════════
-window.previewPhoto=function(){
-  const url = document.getElementById("ePhotoUrl").value.trim();
-  if(!url){showToast("Enter a photo URL first",true);return;}
-  const converted = convertDriveLink(url);
-  const thumb = document.getElementById("photoThumb");
-  const icon  = document.getElementById("photoThumbIcon");
-  if(thumb){
-    thumb.src = converted;
-    thumb.classList.remove("hidden");
-    thumb.onerror=()=>{thumb.classList.add("hidden");icon.classList.remove("hidden");showToast("Cannot load image — check the link",true);};
-    if(icon) icon.classList.add("hidden");
-  }
-  showToast("Preview updated ✅");
-};
-
-// ════════════════════════════════════════════
-// PROJECT IMAGE PREVIEW (Admin)
-// ════════════════════════════════════════════
-window.previewProjImg=function(){
-  const url = document.getElementById("pmImageUrl").value.trim();
-  if(!url){showToast("Enter an image URL first",true);return;}
-  const converted = convertDriveLink(url);
-  const img  = document.getElementById("pmPreviewImg");
-  const wrap = document.getElementById("pmPreviewWrap");
-  if(img && wrap){
-    img.src = converted;
-    wrap.classList.remove("hidden");
-    img.onerror=()=>{wrap.classList.add("hidden");showToast("Cannot load image — check the link",true);};
-  }
-};
-
-window.clearProjImg=()=>{
-  document.getElementById("pmImageUrl").value="";
-  document.getElementById("pmPreviewImg").src="";
-  document.getElementById("pmPreviewWrap").classList.add("hidden");
-};
-
-// ════════════════════════════════════════════
 // PROJECTS CRUD
 // ════════════════════════════════════════════
 window.openProjModal=function(id){
@@ -1235,6 +1300,8 @@ window.openProjModal=function(id){
   document.getElementById("pmImageUrl").value="";
   document.getElementById("pmPreviewWrap").classList.add("hidden");
   document.getElementById("pmPreviewImg").src="";
+  document.getElementById("projUploadProgress").style.display="none";
+  document.getElementById("projUploadSuccess").style.display="none";
   document.getElementById("projModalTitle").textContent = id ? "Edit Project" : "New Project";
   if(id){
     const p=window.DATA.projects.find(x=>x.id===id); if(!p)return;
@@ -1248,7 +1315,8 @@ window.openProjModal=function(id){
     document.getElementById("pmLink").value     = p.link||"";
     document.getElementById("pmImageUrl").value = p.imageUrl||"";
     if(p.imageUrl){
-      document.getElementById("pmPreviewImg").src = convertDriveLink(p.imageUrl);
+      const src = convertDriveLink(p.imageUrl);
+      document.getElementById("pmPreviewImg").src = src;
       document.getElementById("pmPreviewWrap").classList.remove("hidden");
     }
   }
@@ -1267,7 +1335,7 @@ window.saveProj=async function(){
     icon:     document.getElementById("pmIcon").value.trim(),
     gradient: document.getElementById("pmGradient").value,
     link:     document.getElementById("pmLink").value.trim(),
-    imageUrl: document.getElementById("pmImageUrl").value.trim()  // raw Drive link — يتحول وقت العرض
+    imageUrl: document.getElementById("pmImageUrl").value.trim()
   };
   if(!obj.title){showToast("Please enter a project title",true);return;}
   if(id){const idx=window.DATA.projects.findIndex(p=>p.id===id);if(idx!==-1)window.DATA.projects[idx]={...window.DATA.projects[idx],...obj};}
@@ -1289,13 +1357,15 @@ window.renderAdminProjects=function(){
   if(!tbody)return;
   if(!window.DATA.projects?.length){tbody.innerHTML="";empty.classList.remove("hidden");return;}
   empty.classList.add("hidden");
-  tbody.innerHTML=window.DATA.projects.map(p=>`
+  tbody.innerHTML=window.DATA.projects.map(p=>{
+    const imgSrc = convertDriveLink(p.imageUrl||"");
+    return `
     <tr class="hover:bg-slate-50 transition">
       <td class="px-4 py-3">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br ${p.gradient} flex items-center justify-center text-white text-sm flex-shrink-0">
-            ${p.imageUrl?`<img src="${convertDriveLink(p.imageUrl)}" class="w-full h-full object-cover" onerror="this.style.display='none'">`:``}
-            <i class="${p.icon} text-xs ${p.imageUrl?'hidden':''}"></i>
+          <div class="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br ${p.gradient} flex items-center justify-center text-white text-sm flex-shrink-0 relative">
+            ${imgSrc?`<img src="${imgSrc}" class="absolute inset-0 w-full h-full object-cover" onerror="this.style.display='none'">`:``}
+            <i class="${p.icon} text-xs"></i>
           </div>
           <span class="font-medium text-sm text-slate-800">${p.title}</span>
         </div>
@@ -1307,7 +1377,14 @@ window.renderAdminProjects=function(){
           <button onclick="delProj('${p.id}')"  class="text-red-500 hover:text-red-700 text-sm font-bold"><i class="fas fa-trash mr-1 text-xs"></i>Delete</button>
         </div>
       </td>
-    </tr>`).join("");
+    </tr>`;
+  }).join("");
+};
+
+window.clearProjImg=()=>{
+  document.getElementById("pmImageUrl").value="";
+  document.getElementById("pmPreviewImg").src="";
+  document.getElementById("pmPreviewWrap").classList.add("hidden");
 };
 
 // ════════════════════════════════════════════
