@@ -131,7 +131,7 @@ body.admin #publicSite{display:none}
             <a href="#projects" class="btn-primary px-7 py-3.5 rounded-full shadow-xl flex items-center gap-2 text-sm">
               <i class="fas fa-rocket text-xs"></i> View Projects
             </a>
-            <a id="heroCvBtn" href="#" class="px-7 py-3.5 bg-white text-slate-700 border border-slate-200 font-semibold rounded-full hover:border-primary-400 hover:text-primary-600 hover:shadow-lg transition flex items-center gap-2 text-sm">
+            <a id="heroCvBtn" href="#" target="_blank" class="px-7 py-3.5 bg-white text-slate-700 border border-slate-200 font-semibold rounded-full hover:border-primary-400 hover:text-primary-600 hover:shadow-lg transition flex items-center gap-2 text-sm">
               <i class="fas fa-file-pdf text-xs text-red-500"></i> Download CV
             </a>
           </div>
@@ -146,7 +146,7 @@ body.admin #publicSite{display:none}
                 onerror="this.style.display='none';document.getElementById('heroPhotoFallback').style.display='flex'">
               <div id="heroPhotoFallback" class="w-full h-full flex items-center justify-center flex-col gap-3 text-primary-300">
                 <i class="fas fa-user text-7xl"></i>
-                <span class="text-xs text-primary-400 font-medium">Add your photo from Admin</span>
+                <span class="text-xs text-primary-400 font-medium">Add photo URL from Admin</span>
               </div>
             </div>
             <div class="absolute -bottom-4 -left-6 bg-white rounded-2xl shadow-xl p-3 border border-slate-100 flex items-center gap-3" style="animation:float 5s ease-in-out infinite">
@@ -191,7 +191,7 @@ body.admin #publicSite{display:none}
           <div id="aboutBody" class="space-y-4 text-slate-600 leading-relaxed text-base"></div>
           <div class="mt-6 flex flex-wrap gap-2" id="aboutTags"></div>
           <div class="mt-8 flex gap-3 flex-wrap">
-            <a id="aboutCvBtn" href="#" class="btn-primary px-6 py-3 rounded-full shadow-lg flex items-center gap-2 text-sm">
+            <a id="aboutCvBtn" href="#" target="_blank" class="btn-primary px-6 py-3 rounded-full shadow-lg flex items-center gap-2 text-sm">
               <i class="fas fa-download text-xs"></i> Download CV
             </a>
             <a href="#contact" class="px-6 py-3 border border-slate-200 text-slate-700 font-semibold rounded-full hover:border-primary-400 hover:text-primary-600 transition text-sm flex items-center gap-2">
@@ -317,6 +317,7 @@ body.admin #publicSite{display:none}
   </footer>
 </div>
 
+<!-- LOGIN MODAL -->
 <div id="loginModal" class="modal">
   <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full">
     <div class="text-center mb-6">
@@ -337,6 +338,7 @@ body.admin #publicSite{display:none}
   </div>
 </div>
 
+<!-- ADMIN PANEL -->
 <div id="adminSite" class="fixed inset-0 z-50 bg-slate-50 flex overflow-hidden">
   <aside class="w-56 bg-slate-900 text-white flex flex-col h-full overflow-y-auto flex-shrink-0">
     <div class="p-5 border-b border-slate-700/50">
@@ -373,6 +375,7 @@ body.admin #publicSite{display:none}
   <main class="flex-1 overflow-y-auto p-6 md:p-8">
     <div class="max-w-4xl mx-auto space-y-2">
 
+      <!-- DASHBOARD TAB -->
       <div id="tab-dash" class="tab active">
         <h2 class="font-display text-2xl font-bold text-slate-800 mb-6">Dashboard</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
@@ -389,6 +392,14 @@ body.admin #publicSite{display:none}
             <span class="text-xs font-semibold text-emerald-700">site-fc48e.firebaseapp.com</span>
           </div>
         </div>
+        <!-- Drive Helper -->
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-4">
+          <h3 class="font-display font-bold text-blue-800 mb-2 flex items-center gap-2 text-base"><i class="fab fa-google-drive"></i> Google Drive Links</h3>
+          <p class="text-blue-700 text-sm mb-3">الصور والـ CV — حط أي Google Drive link عادي وهيتحول تلقائياً ✅</p>
+          <div class="bg-white rounded-lg p-3 text-xs text-slate-600 font-mono">
+            https://drive.google.com/file/d/<span class="text-blue-600 font-bold">FILE_ID</span>/view → يتحول تلقائياً
+          </div>
+        </div>
         <div class="bg-white p-6 rounded-xl border shadow-sm">
           <h3 class="font-display font-bold text-slate-800 mb-4 text-base">Quick Actions</h3>
           <div class="flex flex-wrap gap-3">
@@ -399,6 +410,7 @@ body.admin #publicSite{display:none}
         </div>
       </div>
 
+      <!-- HERO TAB -->
       <div id="tab-hero" class="tab">
         <h2 class="font-display text-2xl font-bold text-slate-800 mb-2">Hero Section</h2>
         <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-4 text-emerald-800 text-sm flex gap-2 items-center"><i class="fas fa-cloud-upload-alt"></i> Changes saved to Firebase instantly ✅</div>
@@ -410,35 +422,37 @@ body.admin #publicSite{display:none}
           <div><label class="label">Status Badge Text</label><input id="eStatus" type="text" class="inp" placeholder="Open for Opportunities"></div>
           <div><label class="label">Subtitle / Bio</label><textarea id="eSubtitle" rows="3" class="inp resize-none"></textarea></div>
           <div><label class="label">Typewriter Roles <span class="text-slate-400 font-normal">(comma-separated)</span></label><input id="eRoles" type="text" class="inp" placeholder="Computer Vision Engineer, ROS2 Developer"></div>
+
+          <!-- PHOTO URL (Google Drive or any direct URL) -->
           <div>
-            <label class="label">Profile Photo</label>
-            <div class="flex items-start gap-4">
+            <label class="label">Profile Photo — Google Drive Link أو أي رابط صورة</label>
+            <div class="flex gap-3 items-start">
               <div class="w-24 h-24 rounded-2xl overflow-hidden border-2 border-slate-200 bg-slate-100 flex items-center justify-center flex-shrink-0">
-                <img id="photoThumb" src="" class="w-full h-full object-cover hidden">
-                <i id="photoIcon" class="fas fa-user text-slate-300 text-2xl"></i>
+                <img id="photoThumb" src="" class="w-full h-full object-cover hidden" onerror="this.classList.add('hidden');document.getElementById('photoThumbIcon').classList.remove('hidden')">
+                <i id="photoThumbIcon" class="fas fa-user text-slate-300 text-2xl"></i>
               </div>
-              <div class="flex-1 space-y-2">
-                <label class="upload-btn"><i class="fas fa-upload text-xs"></i> Upload Photo<input type="file" accept="image/*" class="hidden" onchange="onPhotoUpload(this)"></label>
-                <p class="text-xs text-slate-400">JPG, PNG, WEBP — max 5 MB. الصورة بتترفع على Firebase Storage تلقائياً ✅</p>
-                <div id="photoStatusLabel" class="text-xs text-slate-400 flex items-center gap-2"><i class="fas fa-info-circle"></i> No photo uploaded yet</div>
+              <div class="flex-1">
+                <input id="ePhotoUrl" type="text" class="inp mb-2" placeholder="https://drive.google.com/file/d/XXXX/view?usp=sharing">
+                <p class="text-xs text-slate-400">✅ الصق أي Google Drive link عادي — هيتحول تلقائياً للصورة</p>
+                <button type="button" onclick="previewPhoto()" class="mt-2 px-4 py-1.5 bg-primary-50 text-primary-600 border border-primary-200 rounded-lg text-xs font-bold hover:bg-primary-100 transition">
+                  <i class="fas fa-eye mr-1"></i> Preview Photo
+                </button>
               </div>
             </div>
           </div>
+
+          <!-- CV URL (Google Drive) -->
           <div>
-            <label class="label">CV / Resume</label>
-            <div class="space-y-2">
-              <label class="upload-btn"><i class="fas fa-file-pdf text-xs text-red-500"></i> Upload PDF<input type="file" accept=".pdf,.doc,.docx" class="hidden" onchange="onCvUpload(this)"></label>
-              <div id="cvStatusLabel" class="text-xs text-slate-400 flex items-center gap-2"><i class="fas fa-info-circle"></i> No CV uploaded yet</div>
-              <div class="flex items-center gap-2">
-                <span class="text-xs text-slate-500">Or filename:</span>
-                <input type="text" id="eCv" placeholder="Eslam_Nawar_CV.pdf" class="flex-1 border border-slate-200 rounded-lg px-3 py-1.5 text-xs outline-none focus:border-primary-500">
-              </div>
-            </div>
+            <label class="label">CV / Resume — Google Drive Link</label>
+            <input id="eCvUrl" type="text" class="inp mb-2" placeholder="https://drive.google.com/file/d/XXXX/view?usp=sharing">
+            <p class="text-xs text-slate-400">✅ الصق الـ Drive link العادي — زرار الـ CV هيفتح الملف مباشرة</p>
           </div>
+
           <button onclick="saveHero()" class="btn-primary px-6 py-3 rounded-xl text-sm flex items-center gap-2"><i class="fas fa-cloud-upload-alt text-xs"></i>Save to Firebase</button>
         </div>
       </div>
 
+      <!-- ABOUT TAB -->
       <div id="tab-about" class="tab">
         <h2 class="font-display text-2xl font-bold text-slate-800 mb-2">About Section</h2>
         <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-4 text-emerald-800 text-sm flex gap-2 items-center"><i class="fas fa-cloud-upload-alt"></i> Saved to Firebase ✅</div>
@@ -451,6 +465,7 @@ body.admin #publicSite{display:none}
         </div>
       </div>
 
+      <!-- SKILLS TAB -->
       <div id="tab-skills" class="tab">
         <div class="flex justify-between items-center mb-2">
           <h2 class="font-display text-2xl font-bold text-slate-800">Skills</h2>
@@ -460,6 +475,7 @@ body.admin #publicSite{display:none}
         <div id="adminSkillsList" class="space-y-3"></div>
       </div>
 
+      <!-- PROJECTS TAB -->
       <div id="tab-projects" class="tab">
         <div class="flex justify-between items-center mb-2">
           <h2 class="font-display text-2xl font-bold text-slate-800">Projects</h2>
@@ -483,6 +499,7 @@ body.admin #publicSite{display:none}
         </div>
       </div>
 
+      <!-- EXPERIENCE TAB -->
       <div id="tab-exp" class="tab">
         <div class="flex justify-between items-center mb-2">
           <h2 class="font-display text-2xl font-bold text-slate-800">Experience & Education</h2>
@@ -492,6 +509,7 @@ body.admin #publicSite{display:none}
         <div id="adminExpList" class="space-y-3"></div>
       </div>
 
+      <!-- CONTACT TAB -->
       <div id="tab-contact" class="tab">
         <h2 class="font-display text-2xl font-bold text-slate-800 mb-2">Contact & Social Links</h2>
         <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-4 text-emerald-800 text-sm flex gap-2 items-center"><i class="fas fa-cloud-upload-alt"></i> Saved to Firebase ✅</div>
@@ -508,6 +526,7 @@ body.admin #publicSite{display:none}
         </div>
       </div>
 
+      <!-- SETTINGS TAB -->
       <div id="tab-settings" class="tab">
         <h2 class="font-display text-2xl font-bold text-slate-800 mb-4">Site Settings</h2>
         <div class="bg-white rounded-xl border shadow-sm p-6 space-y-4 max-w-lg">
@@ -526,6 +545,7 @@ body.admin #publicSite{display:none}
   </main>
 </div>
 
+<!-- PROJECT MODAL -->
 <div id="projModal" class="modal">
   <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
     <div class="sticky top-0 bg-white px-6 py-4 border-b rounded-t-2xl flex justify-between items-center z-10">
@@ -536,16 +556,23 @@ body.admin #publicSite{display:none}
       <input type="hidden" id="pmId">
       <div><label class="label">Title *</label><input id="pmTitle" type="text" class="inp" required></div>
       <div><label class="label">Category</label><input id="pmCategory" type="text" class="inp" placeholder="Computer Vision"></div>
+
+      <!-- PROJECT IMAGE — Google Drive URL -->
       <div>
-        <label class="label">Project Image</label>
-        <label class="upload-btn w-full justify-center"><i class="fas fa-image text-xs"></i> Upload Image<input type="file" accept="image/*" class="hidden" onchange="onProjImgUpload(this)"></label>
+        <label class="label">Project Image — Google Drive Link أو أي رابط صورة</label>
+        <input id="pmImageUrl" type="text" class="inp mb-2" placeholder="https://drive.google.com/file/d/XXXX/view?usp=sharing">
+        <p class="text-xs text-slate-400 mb-2">✅ الصق Google Drive link عادي — هيتحول تلقائياً</p>
         <div id="pmPreviewWrap" class="hidden mt-2 relative w-full h-44 rounded-xl overflow-hidden border-2 border-slate-200">
-          <img id="pmPreviewImg" class="w-full h-full object-cover">
+          <img id="pmPreviewImg" class="w-full h-full object-cover" onerror="this.parentElement.classList.add('hidden')">
           <button type="button" onclick="clearProjImg()" class="absolute top-2 right-2 w-7 h-7 bg-black/50 rounded-full text-white flex items-center justify-center"><i class="fas fa-times text-xs"></i></button>
         </div>
+        <button type="button" onclick="previewProjImg()" class="mt-2 px-4 py-1.5 bg-primary-50 text-primary-600 border border-primary-200 rounded-lg text-xs font-bold hover:bg-primary-100 transition">
+          <i class="fas fa-eye mr-1"></i> Preview Image
+        </button>
       </div>
+
       <div>
-        <label class="label">Gradient Background</label>
+        <label class="label">Gradient Background <span class="text-slate-400 font-normal">(يظهر لو مفيش صورة)</span></label>
         <select id="pmGradient" class="inp bg-white">
           <option value="from-indigo-500 to-purple-600">Indigo → Purple</option>
           <option value="from-slate-700 to-slate-900">Slate Dark</option>
@@ -568,6 +595,7 @@ body.admin #publicSite{display:none}
   </div>
 </div>
 
+<!-- SKILL MODAL -->
 <div id="skillModal" class="modal">
   <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full">
     <div class="px-6 py-4 border-b flex justify-between items-center">
@@ -598,6 +626,7 @@ body.admin #publicSite{display:none}
   </div>
 </div>
 
+<!-- EXPERIENCE MODAL -->
 <div id="expModal" class="modal">
   <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
     <div class="sticky top-0 bg-white px-6 py-4 border-b rounded-t-2xl flex justify-between items-center z-10">
@@ -657,9 +686,8 @@ body.admin #publicSite{display:none}
 
 <!-- ═══ FIREBASE MODULE ═══ -->
 <script type="module">
-import { initializeApp }                                  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, setDoc, onSnapshot }         from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { getStorage, ref, uploadString, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+import { initializeApp }                          from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const FB_CFG = {
   apiKey:"AIzaSyDvYnzU9umirff_8n4mw1Mh2E7JgUv-vxE",
@@ -670,37 +698,29 @@ const FB_CFG = {
   appId:"1:444905904376:web:ca14f1e5ecca5e0a2d830d"
 };
 
-const fbApp  = initializeApp(FB_CFG);
-const db     = getFirestore(fbApp);
-const storage= getStorage(fbApp);
-const PDOC   = doc(db, "portfolio", "main");
+const fbApp = initializeApp(FB_CFG);
+const db    = getFirestore(fbApp);
+const PDOC  = doc(db, "portfolio", "main");
 
 function setFbStatus(ok) {
   const dot   = document.getElementById("fbDot");
   const label = document.getElementById("fbStatusLabel");
   const stat  = document.getElementById("statFirebase");
-  if (dot)   dot.style.background = ok ? "#10b981" : "#ef4444";
+  if (dot)   dot.style.background   = ok ? "#10b981" : "#ef4444";
   if (label) label.innerHTML = `<span class="w-1.5 h-1.5 rounded-full inline-block" style="background:${ok?"#10b981":"#ef4444"}"></span> ${ok?"Connected":"Offline"}`;
   if (stat)  stat.textContent = ok ? "🟢 Live" : "🔴 Offline";
 }
 
-// ══════════════════════════════════════════════
-// FIX: الـ onSnapshot بيعمل merge صح للـ hero
-// فمش بيضيع الـ photoUrl اللي اتحفظ في Firebase
-// ══════════════════════════════════════════════
 onSnapshot(PDOC, snap => {
   if (snap.exists() && typeof window.DATA !== "undefined") {
     const d = snap.data();
-    // hero: نمرج بس الفيلدات الموجودة في الداتا ومانمسحش photoUrl لو مش موجود في الجديد
-    if (d.hero) {
-      window.DATA.hero = { ...window.DATA.hero, ...d.hero };
-    }
-    if (d.about)      window.DATA.about      = { ...window.DATA.about,    ...d.about };
+    if (d.hero)       window.DATA.hero       = { ...window.DATA.hero,       ...d.hero };
+    if (d.about)      window.DATA.about      = { ...window.DATA.about,      ...d.about };
     if (d.skills)     window.DATA.skills     = d.skills;
     if (d.projects)   window.DATA.projects   = d.projects;
     if (d.experience) window.DATA.experience = d.experience;
-    if (d.contact)    window.DATA.contact    = { ...window.DATA.contact,  ...d.contact };
-    if (d.settings)   window.DATA.settings   = { ...window.DATA.settings, ...d.settings };
+    if (d.contact)    window.DATA.contact    = { ...window.DATA.contact,    ...d.contact };
+    if (d.settings)   window.DATA.settings   = { ...window.DATA.settings,   ...d.settings };
     if (d.settings?.adminPass) window.ADMIN_PASS = d.settings.adminPass;
     window.renderAll();
   }
@@ -720,23 +740,76 @@ window._fbSave = async function(payload) {
     return false;
   }
 };
-
-window._fbUpload = async function(path, dataUrl) {
-  const r   = ref(storage, path);
-  const res = await uploadString(r, dataUrl, "data_url");
-  return await getDownloadURL(res.ref);
-};
 </script>
 
 <!-- ═══ MAIN SCRIPT ═══ -->
 <script>
+
+// ════════════════════════════════════════════
+// GOOGLE DRIVE LINK CONVERTER
+// بياخد أي Google Drive link ويحوله لـ direct image/file URL
+// ════════════════════════════════════════════
+function convertDriveLink(url) {
+  if (!url || url.trim() === "") return "";
+  url = url.trim();
+
+  // لو مش Drive link — رجعه زي ما هو
+  if (!url.includes("drive.google.com")) return url;
+
+  // استخرج الـ file ID
+  let fileId = "";
+
+  // Pattern 1: /file/d/FILE_ID/view
+  const m1 = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (m1) fileId = m1[1];
+
+  // Pattern 2: id=FILE_ID
+  if (!fileId) {
+    const m2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (m2) fileId = m2[1];
+  }
+
+  // Pattern 3: /open?id=FILE_ID
+  if (!fileId) {
+    const m3 = url.match(/open\?id=([a-zA-Z0-9_-]+)/);
+    if (m3) fileId = m3[1];
+  }
+
+  if (!fileId) return url; // مش عارف يستخرج الـ ID — رجع الـ URL زي ما هو
+
+  // حوله لـ direct view URL يشتغل كصورة وكملف
+  return `https://drive.google.com/uc?export=view&id=${fileId}`;
+}
+
+// CV link — بيفتح في تاب جديد (مش download لأن Drive بيعرضه)
+function convertDriveLinkForCV(url) {
+  if (!url || url.trim() === "") return "#";
+  url = url.trim();
+  if (!url.includes("drive.google.com")) return url;
+
+  let fileId = "";
+  const m1 = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (m1) fileId = m1[1];
+  if (!fileId) {
+    const m2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+    if (m2) fileId = m2[1];
+  }
+  if (!fileId) return url;
+
+  // Preview URL — بيفتح الـ PDF في Drive viewer
+  return `https://drive.google.com/file/d/${fileId}/preview`;
+}
+
+// ════════════════════════════════════════════
+// DEFAULT DATA
+// ════════════════════════════════════════════
 const DEFAULTS = {
   hero: {
     firstName:"Eslam", lastName:"Nawar",
     status:"Open for Opportunities",
     subtitle:"Senior Electrical Power & Machines Student @ Alexandria University. Building intelligent autonomous systems from concept to deployment.",
     roles:"Computer Vision Engineer,ROS2 Developer,Simulink Expert,Embedded AI Specialist,Python Developer",
-    photo:"", photoUrl:"", cvFile:"Eslam_Nawar_CV.pdf", cvUrl:""
+    photoUrl:"", cvUrl:""
   },
   about: {
     tagline:"Bridging Software, AI & Hardware",
@@ -751,12 +824,12 @@ const DEFAULTS = {
     {id:"s4",name:"Engineering Tools",icon:"fas fa-cogs",color:"purple",items:["MATLAB / Simulink","Model-Based Design","Flowcode (Embedded)","TUYA IoT Platform","QA & UI/UX Testing"]}
   ],
   projects:[
-    {id:"p1",title:"AI Attendance System",category:"Computer Vision",gradient:"from-indigo-500 to-purple-600",icon:"fas fa-id-card",desc:"Real-time face recognition pipeline using Python, Dlib, and OpenCV with NVIDIA CUDA acceleration.",tags:"Python,CUDA,OpenCV,Dlib",image:"",link:""},
-    {id:"p2",title:"V-SLAM AI Proctoring",category:"V-SLAM / ROS2",gradient:"from-slate-700 to-slate-900",icon:"fas fa-eye",desc:"8-node monitoring architecture using ROS2 Jazzy to detect prohibited items and camera tampering.",tags:"ROS2,V-SLAM,Depth Estimation",image:"",link:""},
-    {id:"p3",title:"Face-Controlled Robot",category:"Human-Robot Interaction",gradient:"from-emerald-500 to-teal-600",icon:"fas fa-smile",desc:"Wheeled humanoid robot controlled via Head-Pose Estimation. Maps real-time facial orientation into motion commands.",tags:"Head-Pose Est.,OpenCV,Embedded C",image:"",link:""},
-    {id:"p4",title:"Bipedal Robot RL",category:"RL / Simulink",gradient:"from-blue-500 to-cyan-500",icon:"fas fa-walking",desc:"Trained an autonomous bipedal agent in Simulink using Reinforcement Learning for stable locomotion.",tags:"MATLAB,Simulink,RL",image:"",link:""},
-    {id:"p5",title:"Autonomous Navigation",category:"Sensor Fusion",gradient:"from-orange-400 to-red-500",icon:"fas fa-route",desc:"3-D motion reconstruction using IMU Sensor Fusion within Simulink to mirror mobile device movements.",tags:"Sensor Fusion,IMU,3D Modeling",image:"",link:""},
-    {id:"p6",title:"Smart Elevator System",category:"Embedded",gradient:"from-gray-600 to-gray-800",icon:"fas fa-building",desc:"Multi-floor control logic using Flowcode with a Soft-Stopping algorithm for smooth deceleration.",tags:"Flowcode,Embedded C,Control Systems",image:"",link:""}
+    {id:"p1",title:"AI Attendance System",category:"Computer Vision",gradient:"from-indigo-500 to-purple-600",icon:"fas fa-id-card",desc:"Real-time face recognition pipeline using Python, Dlib, and OpenCV with NVIDIA CUDA acceleration.",tags:"Python,CUDA,OpenCV,Dlib",imageUrl:"",link:""},
+    {id:"p2",title:"V-SLAM AI Proctoring",category:"V-SLAM / ROS2",gradient:"from-slate-700 to-slate-900",icon:"fas fa-eye",desc:"8-node monitoring architecture using ROS2 Jazzy to detect prohibited items and camera tampering.",tags:"ROS2,V-SLAM,Depth Estimation",imageUrl:"",link:""},
+    {id:"p3",title:"Face-Controlled Robot",category:"Human-Robot Interaction",gradient:"from-emerald-500 to-teal-600",icon:"fas fa-smile",desc:"Wheeled humanoid robot controlled via Head-Pose Estimation. Maps real-time facial orientation into motion commands.",tags:"Head-Pose Est.,OpenCV,Embedded C",imageUrl:"",link:""},
+    {id:"p4",title:"Bipedal Robot RL",category:"RL / Simulink",gradient:"from-blue-500 to-cyan-500",icon:"fas fa-walking",desc:"Trained an autonomous bipedal agent in Simulink using Reinforcement Learning for stable locomotion.",tags:"MATLAB,Simulink,RL",imageUrl:"",link:""},
+    {id:"p5",title:"Autonomous Navigation",category:"Sensor Fusion",gradient:"from-orange-400 to-red-500",icon:"fas fa-route",desc:"3-D motion reconstruction using IMU Sensor Fusion within Simulink to mirror mobile device movements.",tags:"Sensor Fusion,IMU,3D Modeling",imageUrl:"",link:""},
+    {id:"p6",title:"Smart Elevator System",category:"Embedded",gradient:"from-gray-600 to-gray-800",icon:"fas fa-building",desc:"Multi-floor control logic using Flowcode with a Soft-Stopping algorithm for smooth deceleration.",tags:"Flowcode,Embedded C,Control Systems",imageUrl:"",link:""}
   ],
   experience:[
     {id:"e1",title:"B.Sc. Electrical Power & Machines Engineering",sub:"Alexandria University",date:"Oct 2022 – Present",desc:"GPA: 3.46. Focused on power systems, control theory, and industrial automation with extensive self-study in AI and robotics.",tags:"",icon:"fa-university",color:"primary"},
@@ -774,7 +847,7 @@ const DEFAULTS = {
   settings:{title:"Eslam Nawar | Computer Vision & Robotics Engineer",footer:"© 2025 Eslam Nawar. All rights reserved.",adminPass:"admin123"}
 };
 
-window.DATA = JSON.parse(JSON.stringify(DEFAULTS));
+window.DATA       = JSON.parse(JSON.stringify(DEFAULTS));
 window.ADMIN_PASS = "admin123";
 let twIndex = 0, countersRan = false;
 
@@ -786,10 +859,9 @@ async function fbSave(section) {
   return ok;
 }
 
-// ══════════════════════════════════════════════
-// FIX: renderAll — بيعرض الصورة من photoUrl أولاً
-// لو مفيش photoUrl ومفيش photo، بيبقي fallback
-// ══════════════════════════════════════════════
+// ════════════════════════════════════════════
+// RENDER ALL
+// ════════════════════════════════════════════
 window.renderAll = function() {
   const D = window.DATA;
   document.title = D.settings.title || "Eslam Nawar";
@@ -800,10 +872,10 @@ window.renderAll = function() {
   setText("heroStatus",    h.status);
   setText("heroSubtitle",  h.subtitle);
 
-  // FIX: الصورة — photoUrl (Firebase URL) له الأولوية دايماً
+  // Photo — convert Drive link automatically
   const ph = document.getElementById("heroPhoto");
   const pf = document.getElementById("heroPhotoFallback");
-  const photoSrc = h.photoUrl || "";  // مش بنستخدم h.photo لأنه filename مش URL
+  const photoSrc = convertDriveLink(h.photoUrl || "");
   if (ph && pf) {
     if (photoSrc) {
       ph.src = photoSrc;
@@ -817,6 +889,7 @@ window.renderAll = function() {
 
   updateCVLinks();
 
+  // Socials
   const socials = [
     {url:D.contact.linkedin, icon:"fab fa-linkedin",  hover:"hover:text-[#0077b5]"},
     {url:D.contact.github,   icon:"fab fa-github",    hover:"hover:text-slate-900"},
@@ -828,12 +901,14 @@ window.renderAll = function() {
     `<a href="${s.url||'#'}" target="_blank" class="social-btn w-11 h-11 bg-white rounded-xl flex items-center justify-center text-slate-500 ${s.hover} shadow-sm border border-slate-100"><i class="${s.icon}"></i></a>`
   ).join("");
 
+  // About
   setText("aboutTagline", D.about.tagline);
   const ab = document.getElementById("aboutBody");
   if (ab) ab.innerHTML = `<p>${D.about.p1}</p><p>${D.about.p2}</p>`;
   const atags = document.getElementById("aboutTags");
   if (atags) atags.innerHTML = D.about.tags.split(",").map(t=>`<span class="tag">${t.trim()}</span>`).join("");
 
+  // Skills
   const sg = document.getElementById("skillsGrid");
   if (sg) {
     const CM = {orange:{bg:"bg-orange-50",txt:"text-orange-600"},blue:{bg:"bg-blue-50",txt:"text-blue-600"},green:{bg:"bg-green-50",txt:"text-green-600"},purple:{bg:"bg-purple-50",txt:"text-purple-600"},red:{bg:"bg-red-50",txt:"text-red-600"},cyan:{bg:"bg-cyan-50",txt:"text-cyan-600"}};
@@ -847,12 +922,15 @@ window.renderAll = function() {
     }).join("");
   }
 
+  // Projects — convert Drive image links automatically
   const pg = document.getElementById("projectsGrid");
   if (pg) {
-    pg.innerHTML = D.projects.map((p,i)=>`
+    pg.innerHTML = D.projects.map((p,i)=>{
+      const imgSrc = convertDriveLink(p.imageUrl || "");
+      return `
       <div class="proj-card group bg-white rounded-2xl border border-slate-100 overflow-hidden card reveal up shadow-sm" style="transition-delay:${i*70}ms"${p.link?` onclick="window.open('${p.link}','_blank')" style="cursor:pointer"`:""}>
         <div class="proj-img-wrap h-52 bg-gradient-to-br ${p.gradient} relative">
-          ${p.image?`<img src="${p.image}" class="absolute inset-0 w-full h-full object-cover" onerror="this.style.display='none'">` :""}
+          ${imgSrc ? `<img src="${imgSrc}" class="absolute inset-0 w-full h-full object-cover" onerror="this.style.display='none'">` : ""}
           <div class="proj-overlay"></div>
           <div class="absolute inset-0 flex items-center justify-center text-white/10 text-7xl pointer-events-none"><i class="${p.icon}"></i></div>
           <div class="absolute bottom-4 left-4 z-10"><span class="px-3 py-1 bg-white/20 backdrop-blur text-white text-xs font-semibold rounded-full border border-white/30">${p.category}</span></div>
@@ -863,9 +941,11 @@ window.renderAll = function() {
           <p class="text-slate-500 text-sm mb-4 leading-relaxed">${p.desc}</p>
           <div class="flex flex-wrap gap-1.5">${p.tags.split(",").map(t=>`<span class="tag">${t.trim()}</span>`).join("")}</div>
         </div>
-      </div>`).join("");
+      </div>`;
+    }).join("");
   }
 
+  // Experience
   const el = document.getElementById("expList");
   if (el) {
     const EC={primary:{bg:"bg-primary-50",txt:"text-primary-600",border:"border-primary-100"},green:{bg:"bg-green-50",txt:"text-green-600",border:"border-green-100"},purple:{bg:"bg-purple-50",txt:"text-purple-600",border:"border-purple-100"},orange:{bg:"bg-orange-50",txt:"text-orange-600",border:"border-orange-100"}};
@@ -886,11 +966,11 @@ window.renderAll = function() {
     }).join("");
   }
 
+  // Contact
   const c = D.contact;
-  const wurl = waUrl();
   setHref("cEmailCard","mailto:"+c.email); setText("cEmailTxt",c.email);
   setHref("cPhoneCard","tel:"+c.phone.replace(/\s/g,"")); setText("cPhoneTxt",c.phone);
-  setHref("cWaCard",wurl); setText("cWaTxt",c.phone);
+  setHref("cWaCard",waUrl()); setText("cWaTxt",c.phone);
   setText("cLocation",c.location);
 
   const cs = document.getElementById("contactSocials");
@@ -898,7 +978,7 @@ window.renderAll = function() {
     {href:c.linkedin||"#",cls:"bg-[#0077b5]",icon:"fab fa-linkedin"},
     {href:c.github||"#",cls:"bg-slate-800",icon:"fab fa-github"},
     {href:c.youtube||"#",cls:"bg-red-600",icon:"fab fa-youtube"},
-    {href:wurl,cls:"bg-[#25D366]",icon:"fab fa-whatsapp"}
+    {href:waUrl(),cls:"bg-[#25D366]",icon:"fab fa-whatsapp"}
   ].map(b=>`<a href="${b.href}" target="_blank" class="social-btn flex-1 py-3 ${b.cls} text-white rounded-xl text-center hover:opacity-90"><i class="${b.icon}"></i></a>`).join("");
 
   setText("footerText", D.settings.footer);
@@ -908,7 +988,7 @@ window.renderAll = function() {
     {href:c.linkedin||"#",text:"LinkedIn",target:"_blank"},
     {href:c.github||"#",text:"GitHub",target:"_blank"},
     {href:c.youtube||"#",text:"YouTube",target:"_blank"},
-    {href:wurl,text:"WhatsApp",target:"_blank"}
+    {href:waUrl(),text:"WhatsApp",target:"_blank"}
   ].map(l=>`<a href="${l.href}" ${l.target?'target="_blank"':''} class="hover:text-white transition">${l.text}</a>`).join("");
 
   setTimeout(()=>document.querySelectorAll(".reveal").forEach(el=>revealObserver.observe(el)),80);
@@ -918,22 +998,24 @@ window.renderAll = function() {
 function waUrl() { return "https://wa.me/"+(window.DATA.contact.whatsapp||"201012840793").replace(/\D/g,""); }
 function setText(id,val){const el=document.getElementById(id);if(el)el.textContent=val||"";}
 function setHref(id,val){const el=document.getElementById(id);if(el)el.href=val||"#";}
+
 function updateCVLinks(){
-  const h=window.DATA.hero;
-  const url=h.cvUrl||h.cvFile||"#";
+  const h = window.DATA.hero;
+  const rawUrl = h.cvUrl || "";
+  const url = rawUrl ? convertDriveLinkForCV(rawUrl) : "#";
   ["heroCvBtn","aboutCvBtn"].forEach(id=>{
     const el=document.getElementById(id); if(!el)return;
-    el.href=url;
-    if(url!=="＃")el.setAttribute("download",h.cvFile||"CV.pdf");
-    else el.removeAttribute("download");
+    el.href = url;
+    el.target = "_blank";
   });
 }
+
 function updateStats(){
-  setText("statProjects",window.DATA.projects?.length||0);
-  setText("statSkills",window.DATA.skills?.length||0);
+  setText("statProjects", window.DATA.projects?.length || 0);
+  setText("statSkills",   window.DATA.skills?.length   || 0);
 }
 
-const revealObserver=new IntersectionObserver(entries=>{
+const revealObserver = new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("visible");revealObserver.unobserve(e.target);}});
 },{threshold:.12,rootMargin:"0px 0px -60px 0px"});
 
@@ -959,6 +1041,9 @@ function typeWriter(){
   }
 }
 
+// ════════════════════════════════════════════
+// CONTACT FORM
+// ════════════════════════════════════════════
 window.submitForm=async function(e){
   e.preventDefault();
   const form=e.target; const btn=document.getElementById("sendBtn");
@@ -976,7 +1061,10 @@ window.submitForm=async function(e){
 };
 window.resetForm=function(){const form=document.getElementById("contactForm");form.reset();form.classList.remove("hidden");document.getElementById("formSuccess").classList.add("hidden");};
 
-window.openLogin=()=>{document.getElementById("loginModal").classList.add("open");setTimeout(()=>document.getElementById("loginPass").focus(),150);};
+// ════════════════════════════════════════════
+// AUTH
+// ════════════════════════════════════════════
+window.openLogin =()=>{document.getElementById("loginModal").classList.add("open");setTimeout(()=>document.getElementById("loginPass").focus(),150);};
 window.closeLogin=()=>{document.getElementById("loginModal").classList.remove("open");document.getElementById("loginPass").value="";document.getElementById("loginErr").classList.add("hidden");};
 window.doLogin=function(){
   const val=document.getElementById("loginPass").value;
@@ -996,18 +1084,22 @@ window.showTab=function(name){
   if(fills[name]&&typeof window[fills[name]]==="function")window[fills[name]]();
 };
 
+// ════════════════════════════════════════════
+// SAVE FUNCTIONS
+// ════════════════════════════════════════════
 window.saveHero=async function(){
   const D=window.DATA.hero;
-  D.firstName=document.getElementById("eFirstName").value;
-  D.lastName=document.getElementById("eLastName").value;
-  D.status=document.getElementById("eStatus").value;
-  D.subtitle=document.getElementById("eSubtitle").value;
-  D.roles=document.getElementById("eRoles").value;
-  D.cvFile=document.getElementById("eCv").value;
-  // لا نمسحش photoUrl عند السيف — بس نسيف الـ hero كامل
+  D.firstName = document.getElementById("eFirstName").value;
+  D.lastName  = document.getElementById("eLastName").value;
+  D.status    = document.getElementById("eStatus").value;
+  D.subtitle  = document.getElementById("eSubtitle").value;
+  D.roles     = document.getElementById("eRoles").value;
+  D.photoUrl  = document.getElementById("ePhotoUrl").value.trim();
+  D.cvUrl     = document.getElementById("eCvUrl").value.trim();
   const ok=await fbSave("hero");
   if(ok){renderAll();showToast("Hero section saved! ✅");}
 };
+
 window.saveAbout=async function(){
   const D=window.DATA.about;
   D.tagline=document.getElementById("eAboutTagline").value;
@@ -1017,6 +1109,7 @@ window.saveAbout=async function(){
   const ok=await fbSave("about");
   if(ok){renderAll();showToast("About section saved! ✅");}
 };
+
 window.saveContact=async function(){
   const D=window.DATA.contact;
   D.email=document.getElementById("eEmail").value;
@@ -1029,6 +1122,7 @@ window.saveContact=async function(){
   const ok=await fbSave("contact");
   if(ok){renderAll();showToast("Contact info saved! ✅");}
 };
+
 window.saveSettings=async function(){
   const D=window.DATA.settings;
   D.title=document.getElementById("eTitle").value;
@@ -1040,113 +1134,95 @@ window.saveSettings=async function(){
   if(ok){renderAll();showToast("Settings saved! ✅");}
 };
 
+// ════════════════════════════════════════════
+// FILL ADMIN FORMS
+// ════════════════════════════════════════════
 window.fillHero=function(){
   const h=window.DATA.hero;
-  document.getElementById("eFirstName").value=h.firstName||"";
-  document.getElementById("eLastName").value=h.lastName||"";
-  document.getElementById("eStatus").value=h.status||"";
-  document.getElementById("eSubtitle").value=h.subtitle||"";
-  document.getElementById("eRoles").value=h.roles||"";
-  document.getElementById("eCv").value=h.cvFile||"";
-  // إظهار الصورة في الـ admin thumbnail
-  const src=h.photoUrl||"";
-  if(src){
-    const img=document.getElementById("photoThumb");
-    const icon=document.getElementById("photoIcon");
-    if(img&&icon){img.src=src;img.classList.remove("hidden");icon.classList.add("hidden");}
-    const lbl=document.getElementById("photoStatusLabel");
-    if(lbl)lbl.innerHTML=`<i class="fas fa-check-circle text-emerald-500"></i> <span class="text-emerald-600 font-medium">Photo uploaded to Firebase ✅</span>`;
+  document.getElementById("eFirstName").value = h.firstName  || "";
+  document.getElementById("eLastName").value  = h.lastName   || "";
+  document.getElementById("eStatus").value    = h.status     || "";
+  document.getElementById("eSubtitle").value  = h.subtitle   || "";
+  document.getElementById("eRoles").value     = h.roles      || "";
+  document.getElementById("ePhotoUrl").value  = h.photoUrl   || "";
+  document.getElementById("eCvUrl").value     = h.cvUrl      || "";
+
+  // Show photo preview if exists
+  if(h.photoUrl){
+    const thumb = document.getElementById("photoThumb");
+    const icon  = document.getElementById("photoThumbIcon");
+    const converted = convertDriveLink(h.photoUrl);
+    if(thumb && icon){ thumb.src=converted; thumb.classList.remove("hidden"); icon.classList.add("hidden"); }
   }
-  const cv=document.getElementById("cvStatusLabel");
-  if(cv&&h.cvUrl)cv.innerHTML=`<i class="fas fa-check-circle text-emerald-500"></i> <span class="text-emerald-600 font-medium">${h.cvFile} — uploaded ✅</span>`;
 };
+
 window.fillAbout=function(){
-  document.getElementById("eAboutTagline").value=window.DATA.about.tagline||"";
-  document.getElementById("eAboutP1").value=window.DATA.about.p1||"";
-  document.getElementById("eAboutP2").value=window.DATA.about.p2||"";
-  document.getElementById("eAboutTags").value=window.DATA.about.tags||"";
+  document.getElementById("eAboutTagline").value = window.DATA.about.tagline || "";
+  document.getElementById("eAboutP1").value      = window.DATA.about.p1     || "";
+  document.getElementById("eAboutP2").value      = window.DATA.about.p2     || "";
+  document.getElementById("eAboutTags").value    = window.DATA.about.tags   || "";
 };
+
 window.fillContact=function(){
   const c=window.DATA.contact;
-  document.getElementById("eEmail").value=c.email||"";
-  document.getElementById("ePhone").value=c.phone||"";
-  document.getElementById("eWhatsApp").value=c.whatsapp||"";
-  document.getElementById("eLocation").value=c.location||"";
-  document.getElementById("eLinkedIn").value=c.linkedin||"";
-  document.getElementById("eGitHub").value=c.github||"";
-  document.getElementById("eYouTube").value=c.youtube||"";
+  document.getElementById("eEmail").value    = c.email    || "";
+  document.getElementById("ePhone").value    = c.phone    || "";
+  document.getElementById("eWhatsApp").value = c.whatsapp || "";
+  document.getElementById("eLocation").value = c.location || "";
+  document.getElementById("eLinkedIn").value = c.linkedin || "";
+  document.getElementById("eGitHub").value   = c.github   || "";
+  document.getElementById("eYouTube").value  = c.youtube  || "";
 };
+
 window.fillSettings=function(){
-  document.getElementById("eTitle").value=window.DATA.settings.title||"";
-  document.getElementById("eFooter").value=window.DATA.settings.footer||"";
-  document.getElementById("eNewPass").value="";
+  document.getElementById("eTitle").value  = window.DATA.settings.title  || "";
+  document.getElementById("eFooter").value = window.DATA.settings.footer || "";
+  document.getElementById("eNewPass").value = "";
 };
 
-// ══════════════════════════════════════════════
-// FIX: onPhotoUpload — بيرفع على Firebase Storage
-// وبيحفظ الـ download URL في photoUrl
-// ومش بيمسح الـ photo field التاني
-// ══════════════════════════════════════════════
-window.onPhotoUpload=function(input){
-  const file=input.files[0]; if(!file)return;
-  if(file.size>5*1024*1024){showToast("Max 5 MB allowed",true);return;}
-  showToast("Uploading photo to Firebase…");
-  const reader=new FileReader();
-  reader.onload=async e=>{
-    const data=e.target.result;
-    // اعرض الصورة فوراً في الـ UI
-    const img=document.getElementById("photoThumb");
-    const icon=document.getElementById("photoIcon");
-    const ph=document.getElementById("heroPhoto");
-    const pf=document.getElementById("heroPhotoFallback");
-    if(img&&icon){img.src=data;img.classList.remove("hidden");icon.classList.add("hidden");}
-    if(ph){ph.src=data;ph.style.display="block";}
-    if(pf){pf.style.display="none";}
-    try{
-      // رفع على Firebase Storage وجيب الـ URL
-      const url=window._fbUpload?await window._fbUpload("portfolio/photo_"+Date.now(),data):data;
-      // حفظ الـ URL في DATA وفي Firebase
-      window.DATA.hero.photoUrl=url;
-      window.DATA.hero.photo="";  // مسح الـ filename القديم عشان منيجيبش 404
-      if(window._fbSave) await window._fbSave({hero:{photoUrl:url, photo:""}});
-      // تحديث الـ thumbnail بالـ URL الحقيقي
-      if(img)img.src=url;
-      if(ph)ph.src=url;
-      const lbl=document.getElementById("photoStatusLabel");
-      if(lbl)lbl.innerHTML=`<i class="fas fa-check-circle text-emerald-500"></i> <span class="text-emerald-600 font-medium">Photo saved to Firebase ✅</span>`;
-      showToast("Photo saved to Firebase! ✅");
-    }catch(err){
-      console.error("Upload error:",err);
-      window.DATA.hero.photoUrl=data;
-      showToast("Saved locally (Storage error)",true);
-    }
-  };
-  reader.readAsDataURL(file);
+// ════════════════════════════════════════════
+// PHOTO PREVIEW (Admin)
+// ════════════════════════════════════════════
+window.previewPhoto=function(){
+  const url = document.getElementById("ePhotoUrl").value.trim();
+  if(!url){showToast("Enter a photo URL first",true);return;}
+  const converted = convertDriveLink(url);
+  const thumb = document.getElementById("photoThumb");
+  const icon  = document.getElementById("photoThumbIcon");
+  if(thumb){
+    thumb.src = converted;
+    thumb.classList.remove("hidden");
+    thumb.onerror=()=>{thumb.classList.add("hidden");icon.classList.remove("hidden");showToast("Cannot load image — check the link",true);};
+    if(icon) icon.classList.add("hidden");
+  }
+  showToast("Preview updated ✅");
 };
 
-window.onCvUpload=function(input){
-  const file=input.files[0]; if(!file)return;
-  if(file.size>15*1024*1024){showToast("Max 15 MB allowed",true);return;}
-  showToast("Uploading CV…");
-  const reader=new FileReader();
-  reader.onload=async e=>{
-    const data=e.target.result;
-    window.DATA.hero.cvFile=file.name;
-    window.DATA.hero.cvUrl=data;
-    document.getElementById("eCv").value=file.name;
-    const lbl=document.getElementById("cvStatusLabel");
-    if(lbl)lbl.innerHTML=`<i class="fas fa-check-circle text-emerald-500"></i> <span class="text-emerald-600 font-medium">${file.name}</span>`;
-    try{
-      const url=window._fbUpload?await window._fbUpload("portfolio/cv_"+Date.now(),data):data;
-      window.DATA.hero.cvUrl=url;
-      if(window._fbSave)await window._fbSave({hero:{cvUrl:url,cvFile:file.name}});
-      showToast("CV saved to Firebase! ✅");
-    }catch{showToast("CV saved locally ✅");}
-    updateCVLinks();
-  };
-  reader.readAsDataURL(file);
+// ════════════════════════════════════════════
+// PROJECT IMAGE PREVIEW (Admin)
+// ════════════════════════════════════════════
+window.previewProjImg=function(){
+  const url = document.getElementById("pmImageUrl").value.trim();
+  if(!url){showToast("Enter an image URL first",true);return;}
+  const converted = convertDriveLink(url);
+  const img  = document.getElementById("pmPreviewImg");
+  const wrap = document.getElementById("pmPreviewWrap");
+  if(img && wrap){
+    img.src = converted;
+    wrap.classList.remove("hidden");
+    img.onerror=()=>{wrap.classList.add("hidden");showToast("Cannot load image — check the link",true);};
+  }
 };
 
+window.clearProjImg=()=>{
+  document.getElementById("pmImageUrl").value="";
+  document.getElementById("pmPreviewImg").src="";
+  document.getElementById("pmPreviewWrap").classList.add("hidden");
+};
+
+// ════════════════════════════════════════════
+// PROJECTS CRUD
+// ════════════════════════════════════════════
 window.openProjModal=function(id){
   document.getElementById("pmId").value="";
   document.getElementById("pmTitle").value="";
@@ -1156,47 +1232,42 @@ window.openProjModal=function(id){
   document.getElementById("pmIcon").value="fas fa-rocket";
   document.getElementById("pmGradient").value="from-indigo-500 to-purple-600";
   document.getElementById("pmLink").value="";
+  document.getElementById("pmImageUrl").value="";
   document.getElementById("pmPreviewWrap").classList.add("hidden");
   document.getElementById("pmPreviewImg").src="";
+  document.getElementById("projModalTitle").textContent = id ? "Edit Project" : "New Project";
   if(id){
     const p=window.DATA.projects.find(x=>x.id===id); if(!p)return;
-    document.getElementById("projModalTitle").textContent="Edit Project";
-    document.getElementById("pmId").value=p.id;
-    document.getElementById("pmTitle").value=p.title;
-    document.getElementById("pmCategory").value=p.category;
-    document.getElementById("pmDesc").value=p.desc;
-    document.getElementById("pmTags").value=p.tags;
-    document.getElementById("pmIcon").value=p.icon;
-    document.getElementById("pmGradient").value=p.gradient;
-    document.getElementById("pmLink").value=p.link||"";
-    if(p.image){document.getElementById("pmPreviewImg").src=p.image;document.getElementById("pmPreviewWrap").classList.remove("hidden");}
-  } else {
-    document.getElementById("projModalTitle").textContent="New Project";
+    document.getElementById("pmId").value       = p.id;
+    document.getElementById("pmTitle").value    = p.title;
+    document.getElementById("pmCategory").value = p.category;
+    document.getElementById("pmDesc").value     = p.desc;
+    document.getElementById("pmTags").value     = p.tags;
+    document.getElementById("pmIcon").value     = p.icon;
+    document.getElementById("pmGradient").value = p.gradient;
+    document.getElementById("pmLink").value     = p.link||"";
+    document.getElementById("pmImageUrl").value = p.imageUrl||"";
+    if(p.imageUrl){
+      document.getElementById("pmPreviewImg").src = convertDriveLink(p.imageUrl);
+      document.getElementById("pmPreviewWrap").classList.remove("hidden");
+    }
   }
   document.getElementById("projModal").classList.add("open");
 };
 window.closeProjModal=()=>document.getElementById("projModal").classList.remove("open");
-window.onProjImgUpload=function(input){
-  const file=input.files[0]; if(!file)return;
-  const reader=new FileReader();
-  reader.onload=e=>{document.getElementById("pmPreviewImg").src=e.target.result;document.getElementById("pmPreviewWrap").classList.remove("hidden");};
-  reader.readAsDataURL(file);
-};
-window.clearProjImg=()=>{document.getElementById("pmPreviewImg").src="";document.getElementById("pmPreviewWrap").classList.add("hidden");};
+
 window.saveProj=async function(){
   const id=document.getElementById("pmId").value;
-  const imgEl=document.getElementById("pmPreviewImg");
-  const img=(imgEl?.src&&imgEl.src!==window.location.href)?imgEl.src:"";
   const obj={
-    id:id||Date.now().toString(),
-    title:document.getElementById("pmTitle").value.trim(),
-    category:document.getElementById("pmCategory").value.trim(),
-    desc:document.getElementById("pmDesc").value.trim(),
-    tags:document.getElementById("pmTags").value.trim(),
-    icon:document.getElementById("pmIcon").value.trim(),
-    gradient:document.getElementById("pmGradient").value,
-    link:document.getElementById("pmLink").value.trim(),
-    image:img
+    id: id || Date.now().toString(),
+    title:    document.getElementById("pmTitle").value.trim(),
+    category: document.getElementById("pmCategory").value.trim(),
+    desc:     document.getElementById("pmDesc").value.trim(),
+    tags:     document.getElementById("pmTags").value.trim(),
+    icon:     document.getElementById("pmIcon").value.trim(),
+    gradient: document.getElementById("pmGradient").value,
+    link:     document.getElementById("pmLink").value.trim(),
+    imageUrl: document.getElementById("pmImageUrl").value.trim()  // raw Drive link — يتحول وقت العرض
   };
   if(!obj.title){showToast("Please enter a project title",true);return;}
   if(id){const idx=window.DATA.projects.findIndex(p=>p.id===id);if(idx!==-1)window.DATA.projects[idx]={...window.DATA.projects[idx],...obj};}
@@ -1211,6 +1282,7 @@ window.delProj=async function(id){
   const ok=await fbSave("projects");
   if(ok){renderAll();renderAdminProjects();showToast("Project deleted");}
 };
+
 window.renderAdminProjects=function(){
   const tbody=document.getElementById("projTableBody");
   const empty=document.getElementById("projTableEmpty");
@@ -1222,7 +1294,8 @@ window.renderAdminProjects=function(){
       <td class="px-4 py-3">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-xl overflow-hidden bg-gradient-to-br ${p.gradient} flex items-center justify-center text-white text-sm flex-shrink-0">
-            ${p.image?`<img src="${p.image}" class="w-full h-full object-cover" onerror="this.style.display='none'">`:`<i class="${p.icon} text-xs"></i>`}
+            ${p.imageUrl?`<img src="${convertDriveLink(p.imageUrl)}" class="w-full h-full object-cover" onerror="this.style.display='none'">`:``}
+            <i class="${p.icon} text-xs ${p.imageUrl?'hidden':''}"></i>
           </div>
           <span class="font-medium text-sm text-slate-800">${p.title}</span>
         </div>
@@ -1237,6 +1310,9 @@ window.renderAdminProjects=function(){
     </tr>`).join("");
 };
 
+// ════════════════════════════════════════════
+// SKILLS CRUD
+// ════════════════════════════════════════════
 window.openSkillModal=function(id){
   document.getElementById("smId").value="";
   document.getElementById("smName").value="";
@@ -1246,15 +1322,16 @@ window.openSkillModal=function(id){
   document.getElementById("skillModalTitle").textContent=id?"Edit Skill Category":"New Skill Category";
   if(id){
     const s=window.DATA.skills.find(x=>x.id===id); if(!s)return;
-    document.getElementById("smId").value=s.id;
-    document.getElementById("smName").value=s.name;
-    document.getElementById("smIcon").value=s.icon;
-    document.getElementById("smColor").value=s.color;
-    document.getElementById("smItems").value=s.items.join("\n");
+    document.getElementById("smId").value    = s.id;
+    document.getElementById("smName").value  = s.name;
+    document.getElementById("smIcon").value  = s.icon;
+    document.getElementById("smColor").value = s.color;
+    document.getElementById("smItems").value = s.items.join("\n");
   }
   document.getElementById("skillModal").classList.add("open");
 };
 window.closeSkillModal=()=>document.getElementById("skillModal").classList.remove("open");
+
 window.saveSkill=async function(){
   const id=document.getElementById("smId").value;
   const obj={id:id||Date.now().toString(),name:document.getElementById("smName").value.trim(),icon:document.getElementById("smIcon").value.trim(),color:document.getElementById("smColor").value,items:document.getElementById("smItems").value.split("\n").map(l=>l.trim()).filter(Boolean)};
@@ -1286,6 +1363,9 @@ window.renderAdminSkills=function(){
     </div>`).join("")||"<p class='text-slate-400 text-sm text-center py-8'>No skill categories yet.</p>";
 };
 
+// ════════════════════════════════════════════
+// EXPERIENCE CRUD
+// ════════════════════════════════════════════
 window.openExpModal=function(id){
   document.getElementById("emId").value="";
   document.getElementById("emTitle").value="";
@@ -1298,18 +1378,19 @@ window.openExpModal=function(id){
   document.getElementById("expModalTitle").textContent=id?"Edit Entry":"New Entry";
   if(id){
     const e=window.DATA.experience.find(x=>x.id===id); if(!e)return;
-    document.getElementById("emId").value=e.id;
-    document.getElementById("emTitle").value=e.title;
-    document.getElementById("emSub").value=e.sub;
-    document.getElementById("emDate").value=e.date;
-    document.getElementById("emDesc").value=e.desc;
-    document.getElementById("emTags").value=e.tags;
-    document.getElementById("emIcon").value=e.icon;
-    document.getElementById("emColor").value=e.color;
+    document.getElementById("emId").value    = e.id;
+    document.getElementById("emTitle").value = e.title;
+    document.getElementById("emSub").value   = e.sub;
+    document.getElementById("emDate").value  = e.date;
+    document.getElementById("emDesc").value  = e.desc;
+    document.getElementById("emTags").value  = e.tags;
+    document.getElementById("emIcon").value  = e.icon;
+    document.getElementById("emColor").value = e.color;
   }
   document.getElementById("expModal").classList.add("open");
 };
 window.closeExpModal=()=>document.getElementById("expModal").classList.remove("open");
+
 window.saveExp=async function(){
   const id=document.getElementById("emId").value;
   const obj={id:id||Date.now().toString(),title:document.getElementById("emTitle").value.trim(),sub:document.getElementById("emSub").value.trim(),date:document.getElementById("emDate").value.trim(),desc:document.getElementById("emDesc").value.trim(),tags:document.getElementById("emTags").value.trim(),icon:document.getElementById("emIcon").value,color:document.getElementById("emColor").value};
@@ -1341,6 +1422,9 @@ window.renderAdminExp=function(){
     </div>`).join("")||"<p class='text-slate-400 text-sm text-center py-8'>No experience entries yet.</p>";
 };
 
+// ════════════════════════════════════════════
+// IMPORT / EXPORT / RESET
+// ════════════════════════════════════════════
 window.exportJSON=function(){
   const blob=new Blob([JSON.stringify(window.DATA,null,2)],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="portfolio-backup-"+new Date().toISOString().split("T")[0]+".json";a.click();
@@ -1365,6 +1449,9 @@ window.resetDefaults=async function(){
   renderAll();showToast("Reset to defaults! ✅");
 };
 
+// ════════════════════════════════════════════
+// TOAST
+// ════════════════════════════════════════════
 function showToast(msg,isError=false){
   const toast=document.getElementById("toast");
   const icon=document.getElementById("toastIcon");
@@ -1376,6 +1463,9 @@ function showToast(msg,isError=false){
 }
 window.showToast=showToast;
 
+// ════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════
 document.addEventListener("DOMContentLoaded",()=>{
   renderAll();
   setTimeout(typeWriter,900);
